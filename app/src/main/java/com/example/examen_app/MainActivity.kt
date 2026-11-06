@@ -12,7 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,6 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 
 data class Lenguaje(val nombre: String, val imagen: Int)
 
+val Verde = Color(0xFF2E7D32)
+val VerdeClaro = Color(0xFFE3F4E5)
+
 val lenguajes = listOf(
     Lenguaje("Kotlin", R.drawable.kotlin),
     Lenguaje("Java", R.drawable.java),
@@ -47,14 +50,15 @@ val lenguajes = listOf(
 
 const val NOMBRE = "Farid Garcia"
 const val CORREO = "faridgmtz@gmail.com"
-const val ACERCA_DE = "Me considero una persona apta para la resolucion de problemas..."
+const val ACERCA_DE = "Me considero una persona aplicada y dedicada a la carrera de Tecnologias de la Informacion e Innovacion Digital"
 val UNIVERSIDAD = LatLng(19.979854713814724, -98.68471321973838)
 const val NOMBRE_UNIVERSIDAD = "Universidad Politécnica de Pachuca"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            MaterialTheme(colorScheme = lightColorScheme()) {
                 PerfilScreen()
             }
         }
@@ -73,46 +77,57 @@ fun PerfilContenido(modifier: Modifier = Modifier) {
         Spacer(Modifier.height(12.dp))
 
         Column(Modifier.padding(horizontal = 16.dp)) {
-            Text(NOMBRE, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Text(CORREO, fontSize = 14.sp)
+            Text(NOMBRE, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(CORREO, fontSize = 15.sp, color = Verde, fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(12.dp))
-            Text("Acerca de", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+            Text("Acerca de", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = Verde)
             Spacer(Modifier.height(4.dp))
-            Text(ACERCA_DE, fontSize = 15.sp)
+            Text(ACERCA_DE, fontSize = 15.sp, color = Color.DarkGray)
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(20.dp))
 
-        Text(
-            "Lenguajes que manejo",
-            modifier = Modifier.padding(horizontal = 16.dp),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(Modifier.height(8.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "LENGUAJES DE PROGRAMACIÓN",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Verde
+            )
+            Text("Desliza →", fontSize = 13.sp, color = Color.Gray)
+        }
+        Spacer(Modifier.height(10.dp))
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(lenguajes) { lenguaje ->
                 EtiquetaLenguaje(lenguaje)
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(20.dp))
 
         Text(
-            "Mi universidad",
+            "MI UNIVERSIDAD",
             modifier = Modifier.padding(horizontal = 16.dp),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = Verde
         )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(10.dp))
         MapaUniversidad()
 
         Spacer(Modifier.height(16.dp))
     }
 }
+
 @Composable
 fun CabeceraPerfil() {
     Box(modifier = Modifier.fillMaxWidth()) {
@@ -120,7 +135,10 @@ fun CabeceraPerfil() {
             painter = painterResource(R.drawable.portada),
             contentDescription = "Portada",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxWidth().height(180.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
         )
         Image(
             painter = painterResource(R.drawable.fotop),
@@ -137,23 +155,31 @@ fun CabeceraPerfil() {
     }
     Spacer(Modifier.height(50.dp))
 }
+
 @Composable
 fun EtiquetaLenguaje(lenguaje: Lenguaje) {
-    Card(shape = RoundedCornerShape(12.dp)) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Card(
+        shape = CircleShape,
+        colors = CardDefaults.cardColors(
+            containerColor = VerdeClaro,
+            contentColor = Color.Black
+        )
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(lenguaje.imagen),
                 contentDescription = lenguaje.nombre,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier.size(28.dp)
             )
-            Spacer(Modifier.height(4.dp))
-            Text(lenguaje.nombre, fontSize = 13.sp)
+            Spacer(Modifier.width(8.dp))
+            Text(lenguaje.nombre, fontSize = 15.sp, fontWeight = FontWeight.Medium)
         }
     }
 }
+
 @Composable
 fun MapaUniversidad() {
     val cameraPositionState = rememberCameraPositionState {
@@ -163,7 +189,8 @@ fun MapaUniversidad() {
         modifier = Modifier
             .fillMaxWidth()
             .height(220.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(20.dp)),
         cameraPositionState = cameraPositionState
     ) {
         Marker(
@@ -172,6 +199,7 @@ fun MapaUniversidad() {
         )
     }
 }
+
 @Composable
 fun PerfilScreen() {
     var mostrarDialogo by remember { mutableStateOf(false) }
@@ -184,11 +212,21 @@ fun PerfilScreen() {
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Snackbar(modifier = Modifier.weight(1f)) {
+                Snackbar(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(20.dp),
+                    containerColor = VerdeClaro,
+                    contentColor = Color.Black
+                ) {
                     Text("Escribe aquí tu mensaje")
                 }
                 Spacer(Modifier.width(12.dp))
-                FloatingActionButton(onClick = { mostrarDialogo = true }) {
+                FloatingActionButton(
+                    onClick = { mostrarDialogo = true },
+                    shape = CircleShape,
+                    containerColor = Verde,
+                    contentColor = Color.White
+                ) {
                     Text("+", fontSize = 24.sp)
                 }
             }
@@ -208,6 +246,7 @@ fun PerfilScreen() {
         )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PerfilPreview() {
