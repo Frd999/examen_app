@@ -36,9 +36,9 @@ val Verde = Color(0xFF2E7D32)
 val VerdeClaro = Color(0xFFE3F4E5)
 
 val lenguajes = listOf(
-    Lenguaje("Kotlin", R.drawable.kotlin),
+    Lenguaje("Kotlin", R.drawable.kot),
     Lenguaje("Java", R.drawable.java),
-    Lenguaje("Python", R.drawable.python),
+    Lenguaje("Python", R.drawable.py),
     Lenguaje("JavaScript", R.drawable.js),
     Lenguaje("PHP", R.drawable.php),
     Lenguaje("C#", R.drawable.cs),
